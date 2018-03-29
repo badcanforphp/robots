@@ -25,7 +25,7 @@ class DefaultController extends BaseController
     ];*/
     public function actionIndex()
     {
-        if((Yii::$app->request->isPost) || (Yii::$app->request->isGet)){
+        if(isset($_REQUEST['chat'])){
             $text = $_REQUEST['chat'];
         }else{
             $text = '';
@@ -86,7 +86,8 @@ class DefaultController extends BaseController
                         $ar['type'] = $val['resultType'];
                     }
                 }else{
-                    return 123;
+                    echo json_encode(123);
+                    exit();
                 }
                 foreach($val['values'] as $as=>$qs){
                     if(in_array($as,$this->type)){

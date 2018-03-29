@@ -18,7 +18,7 @@ class BaseController extends Controller
     public $userId = 1;
     public $selfInfo = '';
 
-    private $error = [
+    public $error = [
         5000 => '无解析结果',
         6000 => '暂不支持该功能',
         4000 => '请求参数格式错误',
