@@ -7,6 +7,9 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'timeZone' => 'Asia/Shanghai',
+    'language' => 'zh-CN',
+    'layout' => false,
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
@@ -43,14 +46,14 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
+
         'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-            ],
+            'enablePrettyUrl' => true,//路由路径化
+            'showScriptName' => false,//隐藏入口脚本
+            'enableStrictParsing' => true,//是否启用严格解析
+            'rules' => require(__DIR__ . '/route.php'),
+            'routeParam' => 'routeParam',
         ],
-        */
     ],
     'params' => $params,
 ];

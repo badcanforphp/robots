@@ -1,4 +1,5 @@
 <?php
+define('DOMAIN', 'xin.fantasticskybaby.pub');
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
