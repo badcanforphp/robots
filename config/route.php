@@ -11,6 +11,7 @@
 
 $route =  [
     'http://www.' . DOMAIN . '/' => '/default',
+    'http://xin' . DOMAIN . '/' => '/default',
 ];
 
 //return array_merge($route, $newmobileRoute);
