@@ -25,6 +25,7 @@ class DefaultController extends BaseController
     ];*/
     public function actionIndex()
     {
+        return $this->render('test');
         if(isset($_REQUEST['chat'])){
             $text = $_REQUEST['chat'];
         }else{
@@ -108,6 +109,5 @@ class DefaultController extends BaseController
                 exit();
             }
         }
-        //return $this->render('test');
     }
 }
