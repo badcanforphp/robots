@@ -12,6 +12,7 @@
 $route =  [
     'http://www.' . DOMAIN . '/' => '/default',
     'http://xin.fantasticskybaby.cn/' => '/default',
+    'http://xin.fantasticskybaby.cn/check' => '/default/check',
 ];
 
 //return array_merge($route, $newmobileRoute);
