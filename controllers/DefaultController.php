@@ -7,6 +7,7 @@
  */
 namespace app\controllers;
 
+use app\models\Version;
 use Yii;
 
 class DefaultController extends BaseController
@@ -141,6 +142,7 @@ class DefaultController extends BaseController
     //检测是否需要更新
     public function actionCheck()
     {
+        var_dump(Version::find()->asArray()->one());die;
         $request = Yii::$app->request;
         if($request->isPost){
             $ver = $request->post('version');

@@ -10,7 +10,8 @@
 //$newmobileRoute = require(__DIR__.'/newmobile.route.php');
 
 $route =  [
-    'http://www.' . DOMAIN . '/' => '/default',
+    'http://www.' . DOMAIN . '/' => '/default/',
+    'http://www.'.DOMAIN.'/check' => '/default/check',
     'http://xin.fantasticskybaby.cn/' => '/default',
     'http://xin.fantasticskybaby.cn/check' => '/default/check',
 ];

@@ -42,7 +42,7 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
-        'allowedIPs'=>array('110.52.210.202'),
+        'allowedIPs'=>array('127.0.0.1','110.52.210.202'),
     ];
 }
 
