@@ -18,6 +18,7 @@ class BaseController extends Controller
         parent::init();
     }
 
+
     public function afterAction($action, $result)
     {
         $request = Yii::$app->request;

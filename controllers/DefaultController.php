@@ -7,7 +7,6 @@
  */
 namespace app\controllers;
 
-use app\models\Version;
 use Yii;
 
 class DefaultController extends BaseController
@@ -136,23 +135,6 @@ class DefaultController extends BaseController
                 echo json_encode($this->error[$result[0]['intent']['code']]);
                 exit();
             }
-        }
-    }
-
-    //检测是否需要更新
-    public function actionCheck()
-    {
-        var_dump(Version::find()->asArray()->one());die;
-        $request = Yii::$app->request;
-        if($request->isPost){
-            $ver = $request->post('version');
-            if(!$ver){
-                echo json_encode([200 => '无需更新']);
-            }else{
-                echo json_encode([200 => '请更新最新版本']);
-            }
-        }else{
-            echo json_encode([502 => '传值方式错误，请重试']);
         }
     }
 }
