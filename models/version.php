@@ -4,14 +4,7 @@ namespace app\models;
 
 use Yii;
 
-/**
- * This is the model class for table "feedback".
- *
- * @property string $id
- * @property integer $uid
- * @property integer $type
- * @property string $content
- */
+
 class Version extends \yii\db\ActiveRecord
 {
     /**

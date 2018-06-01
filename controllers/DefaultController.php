@@ -11,18 +11,6 @@ use Yii;
 
 class DefaultController extends BaseController
 {
-    /*private  $apiKey = [
-        'f186b8ff46534282975c3225acb17f14',
-        '275723f579e1451b959052655dd8dcd7',
-        'eecd4c3d85384f6a9b2ae899ff78f844',
-        '837542d3fd134238aad278dc4d267a18',
-        '6b0fb4565d854def8d5509006fa217f5',
-        'a05c3a073f784c4e8e66617a0b6c2d19',
-        'b1a69315979c45e49598cccb57909010',
-        '66f944e67e0d427b95736241a98389ac',
-        'e76ca2e836234915a19133366defd425',
-        'df707c0e4fd446a28db1e0768abc80b6'
-    ];*/
     private $apiKey;
     private $secret;
     private $userId = 1;
@@ -53,6 +41,12 @@ class DefaultController extends BaseController
 
     public function actionIndex()
     {
+        if(isset($_REQUEST)){
+            $check = $this->__checkSign($_REQUEST);
+        }else{
+            echo json_encode(4000);
+            exit();
+        }
         if(isset($_REQUEST['chat'])){
             $text = $_REQUEST['chat'];
         }else{
@@ -65,6 +59,30 @@ class DefaultController extends BaseController
             ]
         ];
 
+        switch($_REQUEST['type']){
+            case 33:
+                $type_arr = [
+                    '20624b9154d24758acc1810281a7a45a',
+                    '37139791e5654555aca11ec4e474c448',
+                    '3a6e70130d8e41f29d44994c173c7d2c',
+                    '39ad0c1e2a1e4dabb026ec8c81566b15'
+                ];
+                break;
+            case 44:
+                $type_arr = [
+                    '0a0eada1e1a248f5aea569ead03209ce',
+                    '9eeb188d09c54bd698185844e7cf0257',
+                    'c469a6a7546d4bbb90d3e908f1a1165c'
+                ];
+                break;
+            case 55:
+                $type_arr = [
+                    '636e3b13f9314bde83f1a84c5cfaa330',
+                    '2bbf5933692048029045f47ea26cc7c8',
+                    '56d8d939f5274baf897ec3297a6ad453'
+                ];
+                break;
+        }
         $this->apiKey = 'eecd4c3d85384f6a9b2ae899ff78f844';
         $this->secret = '';
 

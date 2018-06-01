@@ -13,6 +13,7 @@ use yii\web\Response;
 
 class BaseController extends Controller
 {
+    private $_salt = '$%fan.xin@&hm';
     public function init()
     {
         parent::init();
@@ -49,5 +50,33 @@ class BaseController extends Controller
         curl_close($curl);
 
         return $result;
+    }
+
+    //检验sgin
+    public function __checkSign($params)
+    {//return true;
+        $sign = isset($params['sign']) ? trim($params['sign']) : '';
+        if (!$sign) {
+            //'调用API的sign参数不能为空';
+            echo json_encode(['code' => 4001]);
+            return false;
+        }
+        unset($params['sign']);
+        ksort($params);
+        $raw_sign = '';
+        foreach ($params as $key => $val) {
+            if ($val) {
+                $raw_sign .= trim($key) . trim($val);
+            }
+        }
+
+        $raw_sign .= $this->_salt;
+        if (md5($raw_sign) != $sign) {
+            //'调用API的sign参数错误';
+            echo json_encode(['code' => 4002]);
+            return false;
+        }
+
+        return true;
     }
 }
