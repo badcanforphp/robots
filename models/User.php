@@ -62,4 +62,10 @@ class User extends \yii\db\ActiveRecord
             $model->save();
         }
     }
+
+    //记录使用次数
+    public static function Time()
+    {
+
+    }
 }

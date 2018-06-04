@@ -18,7 +18,7 @@ class InterController extends BaseController
     public function actionCheckVer()
     {
         //$post = ['sign'=>'5cd7c5cab5672a136885bb47688f18ee','version'=>'1.1.0','wxid'=>'wxid_hmsog98q6fth22','sendtime'=>'1527775308'];
-        //var_dump(Version::find()->asArray()->one());die;
+        //var_dump(Version::find()->asArray()->one());die;var_dump($this->__checkSign($params));die;
         $ver = Version::find()->asArray()->one();
         $request = Yii::$app->request;
         if($request->isPost){//isset($post)
@@ -26,9 +26,9 @@ class InterController extends BaseController
             $post = $request->post();
             $check = $this->__checkSign($post);
             if($check){
-                /*$model = new Test();
+                $model = new Test();
                 $model->data = serialize($post);
-                $model->save();*/
+                $model->save();
                 User::checkUser($post);
                 if($ver['vid'] != $post['version']){
                     echo json_encode(['code' => 6001]);

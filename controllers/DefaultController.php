@@ -92,9 +92,9 @@ class DefaultController extends BaseController
                 }
             }
         }
-        $model = new Test();
+/*        $model = new Test();
         $model->data = serialize($data);
-        $model->save();
+        $model->save();*/
         $ar = [];
 
         $num = [];
