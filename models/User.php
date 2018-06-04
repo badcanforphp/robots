@@ -64,8 +64,21 @@ class User extends \yii\db\ActiveRecord
     }
 
     //记录使用次数
-    public static function Time()
+    public static function Time($wxid)
     {
+        $model = User::findOne(['wxid'=>$wxid]);
+        $model->time += 1;
+        $model->save();
+    }
 
+    //检测单一用户每日次数是否用完
+    public static function CheckTime($wxid)
+    {
+        $model = User::find()->where(['wxid'=>$wxid])->asArray()->one();
+        $time = $model['time'];
+        if($time >= 300){
+            return false;
+        }
+        return true;
     }
 }

@@ -72,7 +72,7 @@ class BaseController extends Controller
             }
         }
 
-        $raw_sign .= $this->_salt;var_dump($raw_sign);
+        $raw_sign .= $this->_salt;//var_dump($raw_sign);
         if (md5($raw_sign) != $sign) {
             //'调用API的sign参数错误';
             echo json_encode(['code' => 4002]);
