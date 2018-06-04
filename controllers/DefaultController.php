@@ -52,73 +52,46 @@ class DefaultController extends BaseController
         }else{
             $text = '';
         }
+        $data = $_REQUEST;
 
-        $selfInfo = [
-            'location' => [
-                'city' => '长沙'
-            ]
-        ];
-
-        switch($_REQUEST['type']){
-            case 33:
-                $type_arr = [
-                    '20624b9154d24758acc1810281a7a45a',
-                    '37139791e5654555aca11ec4e474c448',
-                    '3a6e70130d8e41f29d44994c173c7d2c',
-                    '39ad0c1e2a1e4dabb026ec8c81566b15'
-                ];
-                break;
-            case 44:
-                $type_arr = [
-                    '0a0eada1e1a248f5aea569ead03209ce',
-                    '9eeb188d09c54bd698185844e7cf0257',
-                    'c469a6a7546d4bbb90d3e908f1a1165c'
-                ];
-                break;
-            case 55:
-                $type_arr = [
-                    '636e3b13f9314bde83f1a84c5cfaa330',
-                    '2bbf5933692048029045f47ea26cc7c8',
-                    '56d8d939f5274baf897ec3297a6ad453'
-                ];
-                break;
+        if(isset($data['type'])){
+            switch($data['type']){
+                case 33://聊天
+                    $type_arr = [
+                        '20624b9154d24758acc1810281a7a45a',
+                        '37139791e5654555aca11ec4e474c448',
+                        '3a6e70130d8e41f29d44994c173c7d2c',
+                        '39ad0c1e2a1e4dabb026ec8c81566b15'
+                    ];
+                    break;
+                case 44://情感
+                    $type_arr = [
+                        '0a0eada1e1a248f5aea569ead03209ce',
+                        '9eeb188d09c54bd698185844e7cf0257',
+                        'c469a6a7546d4bbb90d3e908f1a1165c'
+                    ];
+                    break;
+                case 55://客服
+                    $type_arr = [
+                        '636e3b13f9314bde83f1a84c5cfaa330',
+                        '2bbf5933692048029045f47ea26cc7c8',
+                        '56d8d939f5274baf897ec3297a6ad453'
+                    ];
+                    break;
+            }
+        }else{
+            echo json_encode('');
+            exit();
         }
-        $this->apiKey = 'eecd4c3d85384f6a9b2ae899ff78f844';
-        $this->secret = '';
+        for($i=0;$i<count($type_arr);$i++){
+            $result = $this->robot($text,$data,$type_arr[$i]);
+            if(!isset($result[0]['results'])){
+                if($this->error[$result[0]['intent']['code']] != '该apikey没有可用请求次数'){
+                    break;
+                }
+            }
+        }
 
-        $this->userId = md5(1);
-
-        $this->selfInfo = $selfInfo;
-        $this->timestamp = time();
-
-        $iv = '';
-        $iv = str_repeat(chr(0),16);
-
-        $aesKey = md5($this->secret.$this->timestamp.$this->apiKey);
-
-        $param = [
-            'perception' => [
-                'inputText' => [
-                    'text' => $text,
-                ],
-                'selfInfo' => $this->selfInfo
-            ],
-            'userInfo' => [
-                'apiKey' => $this->apiKey,
-                'userId' => $this->userId,
-            ]
-        ];
-
-        $cipher = base64_encode(openssl_encrypt(json_encode($param), 'aes-128-cbc', hash('MD5', $aesKey, true), OPENSSL_RAW_DATA, $iv));
-
-        $postData = [
-            'key' => $this->apiKey,
-            'timestamp' => $this->timestamp,
-//            'data' => $param
-            'data' => $cipher
-        ];
-//        var_dump($postData);die;
-        $result = json_decode('['.$this->post('http://openapi.tuling123.com/openapi/api/v2',json_encode($param)).']',true);
         $ar = [];
 
         $num = [];
@@ -154,5 +127,57 @@ class DefaultController extends BaseController
                 exit();
             }
         }
+    }
+
+    private function robot($text,$data,$key)
+    {
+        $selfInfo = [
+            'location' => [
+                'city' => '长沙'
+            ]
+        ];
+
+        $this->secret = '';
+
+        $this->userId = md5(1);
+
+        $this->selfInfo = $selfInfo;
+        $this->timestamp = time();
+
+        $iv = '';
+        $iv = str_repeat(chr(0),16);
+
+        $this->apiKey = $key;
+        $aesKey = md5($this->secret.$this->timestamp.$this->apiKey);
+
+        $param = [
+            'perception' => [
+                'inputText' => [
+                    'text' => $text,
+                ],
+                'selfInfo' => $this->selfInfo
+            ],
+            'userInfo' => [
+                'apiKey' => $this->apiKey,
+                'userId' => $this->userId,
+            ]
+        ];
+
+        $iv = '';
+        $iv = str_repeat(chr(0),16);
+
+        $aesKey = md5($this->secret.$this->timestamp.$this->apiKey);
+
+        $cipher = base64_encode(openssl_encrypt(json_encode($param), 'aes-128-cbc', hash('MD5', $aesKey, true), OPENSSL_RAW_DATA, $iv));
+
+        $postData = [
+            'key' => $this->apiKey,
+            'timestamp' => $this->timestamp,
+//            'data' => $param
+            'data' => $cipher
+        ];
+//        var_dump($postData);die;
+        $result = json_decode('['.$this->post('http://openapi.tuling123.com/openapi/api/v2',json_encode($param)).']',true);
+        return $result;
     }
 }

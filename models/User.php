@@ -55,7 +55,7 @@ class User extends \yii\db\ActiveRecord
             $model->save();
         }else{
             $model = new User();
-            $model->wxid = $arr['wxid'];
+            $model->wxid = $arr['token'];
             $model->time = 0;
             $model->first_time = time();
             $model->last_time = time();
