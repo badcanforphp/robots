@@ -55,6 +55,7 @@ class BaseController extends Controller
     //检验sgin
     public function __checkSign($params)
     {//return true;
+        //$params = ['sign'=>'95c6567c149928523a87ec9af42789a1','type'=>'33','token'=>'BvVKY9 Znftb77oMTfQGjHA2hlCDOaSC','sendtime'=>'1528113242','chat'=>'涂'];
         $sign = isset($params['sign']) ? trim($params['sign']) : '';
         if (!$sign) {
             //'调用API的sign参数不能为空';

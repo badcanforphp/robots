@@ -48,9 +48,9 @@ class User extends \yii\db\ActiveRecord
     //检测是否是新的wxid
     public static function checkUser($arr)
     {
-        $check = User::find()->where(['wxid'=>$arr['wxid']])->asArray()->one();
+        $check = User::find()->where(['wxid'=>$arr['token']])->asArray()->one();
         if($check){
-            $model = User::findOne(['wxid'=>$arr['wxid']]);
+            $model = User::findOne(['wxid'=>$arr['token']]);
             $model->last_time = time();
             $model->save();
         }else{
