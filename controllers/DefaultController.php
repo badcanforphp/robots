@@ -7,6 +7,7 @@
  */
 namespace app\controllers;
 
+use app\models\Test;
 use Yii;
 
 class DefaultController extends BaseController
@@ -91,7 +92,9 @@ class DefaultController extends BaseController
                 }
             }
         }
-
+        $model = new Test();
+        $model->data = serialize($data);
+        $model->save();
         $ar = [];
 
         $num = [];
