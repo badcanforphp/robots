@@ -18,7 +18,9 @@ class InterController extends BaseController
     public function actionCheckVer()
     {
         //$post = ['sign'=>'5cd7c5cab5672a136885bb47688f18ee','version'=>'1.1.0','wxid'=>'wxid_hmsog98q6fth22','sendtime'=>'1527775308'];
-        //var_dump(Version::find()->asArray()->one());die;var_dump($this->__checkSign($params));die;
+        //var_dump(Version::find()->asArray()->one());die;
+        //$params = ['sign'=>'b77192590a8bc212398776c105119e09','version'=>'1.0.0','token'=>'hgf8MU16sq3mLMYgWpQHK+HiYkA94kPv','sendtime'=>'1528123622'];
+        //var_dump($this->__checkSign($params));die;
         $ver = Version::find()->asArray()->one();
         $request = Yii::$app->request;
         if($request->isPost){//isset($post)
