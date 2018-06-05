@@ -60,7 +60,7 @@ class DefaultController extends BaseController
                 echo json_encode('今日聊天次数已用完，请明日再试');
                 exit();
             }else if($checkT === 4){
-                echo json_encode(['text'=>'今日聊天次数已用完，请明日再试']);
+                echo json_encode(['type'=>'text','message'=>'今日聊天次数已用完，请明日再试']);
                 exit();
             }
         }else{
