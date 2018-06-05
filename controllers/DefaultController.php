@@ -149,6 +149,9 @@ class DefaultController extends BaseController
             if($result[0]['intent']['code'] == 4602){
                 echo json_encode('');
                 exit();
+            }else if($result[0]['intent']['code'] == 4003){
+                echo json_encode(['type'=>'text','message'=>'此类型今日聊天次数已用完，请明日再试']);
+                exit();
             }else{
                 echo json_encode($this->error[$result[0]['intent']['code']]);
                 exit();
