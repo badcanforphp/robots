@@ -58,6 +58,9 @@ class DefaultController extends BaseController
             if(!(User::CheckTime($_REQUEST['token']))){
                 echo json_encode('今日聊天次数已用完，请明日再试');
                 exit();
+            }else if(User::CheckTime($_REQUEST['token']) == 4){
+                echo json_encode(['text'=>'今日聊天次数已用完，请明日再试']);
+                exit();
             }
         }else{
             echo json_encode(4000);

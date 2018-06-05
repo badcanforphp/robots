@@ -55,7 +55,7 @@ class BaseController extends Controller
     //检验sgin
     public function __checkSign($params)
     {//return true;
-        //$params = ['sign'=>'b77192590a8bc212398776c105119e09','version'=>'1.0.0','token'=>'hgf8MU16sq3mLMYgWpQHK+HiYkA94kPv','sendtime'=>'1528123622'];//,'chat'=>'涂','type'=>'33'
+        //$params = ['sign'=>'a82ff5deb92ec97f0093b1e2bef93a15','version'=>'1.0.0','token'=>'hgf8MU16sq3mLMYgWpQHK+HiYkA94kPv','sendtime'=>'1528123622','chat'=>'涂','type'=>'33'];//
         //$params = ['sign'=>'b77192590a8bc212398776c105119e09','version'=>'1.0.0','token'=>'hgf8MU16sq3mLMYgWpQHK+HiYkA94kPv','sendtime'=>'1528123622'];
         $sign = isset($params['sign']) ? trim($params['sign']) : '';
         if (!$sign) {
@@ -72,7 +72,7 @@ class BaseController extends Controller
             }
         }
 
-        $raw_sign .= $this->_salt;//var_dump($raw_sign);
+        $raw_sign .= $this->_salt;//var_dump(md5($raw_sign));die;
         if (md5($raw_sign) != $sign) {
             //'调用API的sign参数错误';
             echo json_encode(['code' => 4002]);
