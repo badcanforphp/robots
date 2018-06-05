@@ -8,6 +8,7 @@
 namespace app\controllers;
 
 use app\models\Test;
+use app\models\User;
 use Yii;
 
 class DefaultController extends BaseController
@@ -44,6 +45,20 @@ class DefaultController extends BaseController
     {
         if(isset($_REQUEST)){
             $check = $this->__checkSign($_REQUEST);
+
+            if(!$check)
+                die;
+
+            $isWid = User::find()->where(['wxid'=>$_REQUEST['token']])->asArray()->count();
+            if($isWid == 0){
+                echo json_encode(4003);
+                exit();
+            }
+
+            if(!(User::CheckTime($_REQUEST['token']))){
+                echo json_encode('今日聊天次数已用完，请明日再试');
+                exit();
+            }
         }else{
             echo json_encode(4000);
             exit();
@@ -90,11 +105,16 @@ class DefaultController extends BaseController
                 if($this->error[$result[0]['intent']['code']] != '该apikey没有可用请求次数'){
                     break;
                 }
+            }else{
+                break;
             }
         }
 /*        $model = new Test();
         $model->data = serialize($data);
         $model->save();*/
+
+        $model = User::Time($data['token']);
+
         $ar = [];
 
         $num = [];

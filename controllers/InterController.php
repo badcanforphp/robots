@@ -28,9 +28,9 @@ class InterController extends BaseController
             $post = $request->post();
             $check = $this->__checkSign($post);
             if($check){
-                $model = new Test();
+/*                $model = new Test();
                 $model->data = serialize($post);
-                $model->save();
+                $model->save();*/
                 User::checkUser($post);
                 if($ver['vid'] != $post['version']){
                     echo json_encode(['code' => 6001]);
@@ -41,5 +41,11 @@ class InterController extends BaseController
         }else{
             echo json_encode(['code' => 6010]);
         }
+    }
+
+    //每日零点清除用户使用次数
+    public function actionClearTime()
+    {
+        $model = User::updateAll(['time'=>0]);
     }
 }
