@@ -76,8 +76,10 @@ class User extends \yii\db\ActiveRecord
     {
         $model = User::find()->where(['wxid'=>$wxid])->asArray()->one();
         $time = $model['time'];
-        if($time >= 300){
+        if($time > 300){
             return false;
+        }else if($time == 300){
+            echo json_encode(['text'=>'今日聊天次数已用完，请明日再试']);die;
         }
         return true;
     }
