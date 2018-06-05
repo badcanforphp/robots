@@ -51,7 +51,7 @@ class DefaultController extends BaseController
 
             $isWid = User::find()->where(['wxid'=>$_REQUEST['token']])->asArray()->count();
             if($isWid == 0){
-                echo json_encode(4003);
+                echo json_encode(['code' => 4003]);
                 exit();
             }
 
@@ -64,7 +64,7 @@ class DefaultController extends BaseController
                 exit();
             }
         }else{
-            echo json_encode(4000);
+            echo json_encode(['code' => 4000]);
             exit();
         }
         if(isset($_REQUEST['chat'])){
