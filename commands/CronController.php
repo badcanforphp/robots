@@ -5,14 +5,18 @@
  * Date: 2018/6/8
  * Time: 17:53
  */
+namespace app\commands;
 
-class CronController extends \yii\console\Controller
+use app\models\User;
+use yii\console\Controller;
+
+class CronController extends Controller
 {
 
     //每日零点清除用户使用次数
     public function actionClearTime()
     {
-        $model = \app\models\User::updateAll(['time'=>0]);
+        $model = User::updateAll(['time'=>0]);
     }
 }
 
