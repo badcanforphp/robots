@@ -7,6 +7,7 @@
  */
 namespace app\controllers;
 
+use app\models\Record;
 use app\models\Test;
 use app\models\User;
 use Yii;
@@ -143,6 +144,7 @@ class DefaultController extends BaseController
                 $ar['message'] = implode("---",$num);
                 //."\n" .
             }
+            Record::setRecord($data['token'],$data['type'],$data['chat'],$ar['message']);
             echo json_encode($ar);
             exit();
         }else{
