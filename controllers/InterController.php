@@ -42,10 +42,4 @@ class InterController extends BaseController
             echo json_encode(['code' => 6010]);
         }
     }
-
-    //每日零点清除用户使用次数
-    public function actionClearTime()
-    {
-        $model = User::updateAll(['time'=>0]);
-    }
 }
