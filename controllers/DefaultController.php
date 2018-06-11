@@ -52,7 +52,7 @@ class DefaultController extends BaseController
 
             $isWid = User::find()->where(['wxid'=>$_REQUEST['token']])->asArray()->count();
             if($isWid == 0){
-                echo json_encode(['code' => 4003]);
+                echo json_encode(['code' => 40033]);
                 exit();
             }
 
