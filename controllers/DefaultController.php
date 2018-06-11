@@ -50,11 +50,11 @@ class DefaultController extends BaseController
             if(!$check)
                 die;
 
-            $isWid = User::find()->where(['wxid'=>$_REQUEST['token']])->asArray()->count();
+            /*$isWid = User::find()->where(['wxid'=>$_REQUEST['token']])->asArray()->count();
             if($isWid == 0){
                 echo json_encode(['code' => 40033]);
                 exit();
-            }
+            }*/
 
             $checkT = User::CheckTime($_REQUEST['token']);
             if(!$checkT){
