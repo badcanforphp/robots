@@ -66,6 +66,15 @@ class User extends \yii\db\ActiveRecord
     //记录使用次数
     public static function Time($wxid)
     {
+        $check = User::find()->where(['wxid'=>$wxid])->asArray()->one();
+        if(!$check){
+            $model = new User();
+            $model->wxid = $wxid;
+            $model->time = 0;
+            $model->first_time = time();
+            $model->last_time = time();
+            $model->save();
+        }
         $model = User::findOne(['wxid'=>$wxid]);
         $model->time += 1;
         $model->save();
