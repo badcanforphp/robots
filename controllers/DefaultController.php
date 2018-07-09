@@ -38,6 +38,8 @@ class DefaultController extends BaseController
         7002 => '上传信息失败',
         8008 => '服务器错误'];
 
+    private $error_code = [5000,6000,4000,4001,4002,4003,4005,4007,4100,4200,4300,4400,4500,4600,4602,7002,8008];
+
     private $type = ['text','url','image'];
 
     private $timestamp;
@@ -106,7 +108,9 @@ class DefaultController extends BaseController
         }
         for($i=0;$i<count($type_arr);$i++){
             $result = $this->robot($text,$data,$type_arr[$i]);
-            if(!isset($result[0]['results'])){
+            //var_dump($result);die;
+            //if(!isset($result[0]['results'])){
+            if(in_array($result[0]['intent']['code'],$this->error_code)){
                 if($this->error[$result[0]['intent']['code']] != '该apikey没有可用请求次数'){
                     break;
                 }
@@ -123,7 +127,8 @@ class DefaultController extends BaseController
         $ar = [];
 
         $num = [];
-        if(isset($result[0]['results'])){
+        //if(isset($result[0]['results'])){
+        if(!in_array($result[0]['intent']['code'],$this->error_code)){
             foreach($result[0]['results'] as $key=>$val){
                 //$ar['type'][$key] = $val['resultType'];
                 if(count($result[0]['results']) == 1 && in_array($val['resultType'],$this->type)){
