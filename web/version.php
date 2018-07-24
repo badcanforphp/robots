@@ -12,7 +12,7 @@ $content = pq('#container')->document->textContent;
 $ver = (str_replace(strstr($content,'Maintainer'),'',strstr($content,'Version')));
 echo $ver;
 echo '<br/>';
-$result = curlPost($localHost1, ['check' => 'user','ver' => str_replace('Version: ','',$ver)]);
+$result = curlPost($localHost2, ['check' => 'user','ver' => str_replace('Version: ','',$ver)]);
 echo $result;
 die;
     /*foreach ($content as $row) {
