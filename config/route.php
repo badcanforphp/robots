@@ -14,9 +14,15 @@ $route =  [
 
     'http://www.' . DOMAIN . '/check' => '/inter/check-ver',
 
+    'http://www.' . DOMAIN . '/check-u' => '/inter/check-u',
+
+
     'http://xin.fantasticskybaby.cn/' => '/default',
 
     'http://xin.fantasticskybaby.cn/check' => '/inter/check-ver',
+
+    'http://xin.fantasticskybaby.cn/check-u' => '/inter/check-u',
+
 ];
 
 //return array_merge($route, $newmobileRoute);

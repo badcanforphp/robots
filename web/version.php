@@ -2,13 +2,20 @@
 
 require 'phpQuery/phpQuery.php';
 
-$localHost = 'http://www.qipai.dev/';
+$localHost1 = 'http://www.robots.dec/check-u';
+$localHost2 = 'http://xin.fantasticskybaby.cn/check-u';
 $remoteHost = 'http://apt.thebigboss.org/onepackage.php?bundleid=com.fantasticskybaby.xin';
 //for ($i = 1; $i <= 10; $i++) {
-    $url = $remoteHost;
-    phpQuery::newDocumentFile($url);
-    $content = pq('#container')->document->textContent;echo(str_replace(strstr($content,'Maintainer'),'',strstr($content,'Version')));die;
-    foreach ($content as $row) {
+$url = $remoteHost;
+phpQuery::newDocumentFile($url);
+$content = pq('#container')->document->textContent;
+$ver = (str_replace(strstr($content,'Maintainer'),'',strstr($content,'Version')));
+echo $ver;
+echo '<br/>';
+$result = curlPost($localHost1, ['check' => 'user','ver' => str_replace('Version: ','',$ver)]);
+echo $result;
+die;
+    /*foreach ($content as $row) {
         $goto_url = pq($row)->find('a:first')->attr('href');
         $img = pq($row)->find('a:first')->find('img');
         $title = pq($img)->attr('title');
@@ -65,7 +72,7 @@ $remoteHost = 'http://apt.thebigboss.org/onepackage.php?bundleid=com.fantasticsk
         }
         file_put_contents('result.log', print_r($result, true) . PHP_EOL, FILE_APPEND);
 //    }
-}
+}*/
 
 function curlPost($uri, $data)
 {
@@ -77,6 +84,7 @@ function curlPost($uri, $data)
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);//post传输的数据。
     $result = curl_exec($ch);
     curl_close($ch);
+    return $result;
     return json_decode($result, true);
 }
 

@@ -42,4 +42,34 @@ class InterController extends BaseController
             echo json_encode(['code' => 6010]);
         }
     }
+
+    public function actionCheckU()
+    {
+        $request = Yii::$app->request;
+        if($request->isPost){
+            $post = $request->post();
+            if('user' == $post['check']){
+                $count = User::find()->select('count(*) as c')->asArray()->one();
+                echo '现在使用过插件的用户数为'.$count['c'];
+                echo '<br/>';
+                $ver = Version::find()->asArray()->one();
+                if($post['ver'] === $ver['vid']){
+                    echo '现在数据库插件版本号为'.$post['ver'];
+                }else{echo $ver['vid'];
+                    $model = Version::findOne(1);
+                    $model->vid = $post['ver'];
+                    $model->save();
+                    if($model->save()){
+                        echo '现在数据库插件版本号更新为'.$post['ver'];
+                    }else{
+                     var_dump($model->firstErrors) ;
+                    }
+                }
+            }else{
+                echo '查询错误！';
+            }
+        }else{
+            echo '查询方式错误！';
+        }
+    }
 }
