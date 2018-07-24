@@ -21,7 +21,8 @@ class Version extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'vid'], 'integer'],
+            [['id'], 'integer'],
+            [['vid'], 'string']
         ];
     }
 
