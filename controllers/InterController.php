@@ -72,4 +72,9 @@ class InterController extends BaseController
             echo '查询方式错误！';
         }
     }
+
+    public function actionRua()
+    {
+        return $this->render('rua.html');
+    }
 }
