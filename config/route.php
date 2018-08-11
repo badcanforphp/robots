@@ -18,6 +18,13 @@ $route =  [
 
     'http://www.' . DOMAIN . '/rua' => '/inter/rua',
 
+    /**基础聊天测试**/
+    'http://www.' . DOMAIN . '/im' => '/instant/index',
+    /**基础聊天测试**/
+
+    /**微信接口认证**/
+    'http://www.' . DOMAIN . '/wei' => '/wei/index',
+    /**微信接口认证**/
 
 
     'http://xin.fantasticskybaby.cn/' => '/default',
@@ -27,6 +34,10 @@ $route =  [
     'http://xin.fantasticskybaby.cn/check-u' => '/inter/check-u',
 
     'http://xin.fantasticskybaby.cn/rua' => '/inter/rua',
+
+    /**微信接口认证**/
+    'http://xin.fantasticskybaby.cn/wei' => '/wei/index',
+    /**微信接口认证**/
 
 
 ];
