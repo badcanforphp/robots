@@ -58,6 +58,11 @@ class InterController extends BaseController
                 }else{
                     if(is_string($post['ver']) && !empty($post['ver'])){
                         Yii::$app->db->createCommand()->update('r_version', ['vid' => $post['ver']], 'id = 1')->execute();
+                        if('2.2.0' === $post['ver']){
+                            echo 'bingo';
+                        }else{
+                            echo 'false';
+                        }
                         echo '现在数据库插件版本号更新为'.$post['ver'];
                     }else{
                         echo '现在数据库插件版本号为'.$ver['vid'];
