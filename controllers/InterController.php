@@ -56,13 +56,17 @@ class InterController extends BaseController
                 if($post['ver'] === $ver['vid']){
                     echo '现在数据库插件版本号为'.$ver['vid'];
                 }else{
-                    $model = Version::findOne(1);
-                    $model->vid = $post['ver'];
-                    $model->save();
-                    if($model->save()){
-                        echo '现在数据库插件版本号更新为'.$post['ver'];
+                    if(is_string($post['ver'])){
+                        $model = Version::findOne(1);
+                        $model->vid = $post['ver'];
+                        $model->save();
+                        if($model->save()){
+                            echo '现在数据库插件版本号更新为'.$post['ver'];
+                        }else{
+                            var_dump($model->firstErrors) ;
+                        }
                     }else{
-                     var_dump($model->firstErrors) ;
+                        echo '现在数据库插件版本号为'.$ver['vid'];
                     }
                 }
             }else{
