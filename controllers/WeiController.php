@@ -65,14 +65,14 @@ class WeiController extends BaseController
                     $result = "unknow msg type: ".$RX_TYPE;
                     break;
             }
-            echo $result;die;
+            return $result;
         }
 
 
         if($this->checkSignature($sign,$time,$nonce)){
-            echo $echostr;die;
+            return $echostr;
         }else{
-            echo false;
+            return false;
         }
         //return $this->render('index');
     }
