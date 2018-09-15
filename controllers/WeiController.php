@@ -35,7 +35,7 @@ class WeiController extends BaseController
             $echostr = $request->post('echostr');
         }
 
-        $postStr = $request->post();
+        $postStr = $GLOBALS['HTTP_RAW_POST_DATA'];//$request->post();
         if (!empty($postStr)) {
             $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
             $RX_TYPE = trim($postObj->MsgType);
