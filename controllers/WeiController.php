@@ -74,7 +74,7 @@ class WeiController extends BaseController
         }else{
             echo false;
         }
-        return $this->render('index');
+        //return $this->render('index');
     }
 
     private function checkSignature($sign,$time,$nonce)
