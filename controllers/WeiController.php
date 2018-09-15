@@ -8,8 +8,17 @@
 namespace app\controllers;
 
 
+use app\models\WechatUser;
+
 class WeiController extends BaseController
 {
+    public $enableCsrfValidation = false;
+
+    const tid = 'g4IuqwOutyYesShfTreOXm5j4YXrSewTd_9mUoLbO50';
+    const url = 'https://baidu.com';
+    const appid = 'wxd902eece8491d8a8';
+    const appsc = '9a173c60cbce672602ab1af5a5a8933a';
+
     public function actionIndex()
     {
         $request = \Yii::$app->request;
@@ -26,6 +35,39 @@ class WeiController extends BaseController
             $echostr = $request->post('echostr');
         }
 
+        $postStr = $request->post();
+        if (!empty($postStr)) {
+            $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
+            $RX_TYPE = trim($postObj->MsgType);
+            //用户发送的消息类型判断
+            switch ($RX_TYPE)
+            {
+                case "text":    //文本消息
+                    $result = $this->receiveText($postObj);
+                    break;
+                case "image":   //图片消息
+                    $result = $this->receiveImage($postObj);
+                    break;
+
+                case "voice":   //语音消息
+                    $result = $this->receiveVoice($postObj);
+                    break;
+                case "video":   //视频消息
+                    $result = $this->receiveVideo($postObj);
+                    break;
+                case "location"://位置消息
+                    $result = $this->receiveLocation($postObj);
+                    break;
+                case "link":    //链接消息
+                    $result = $this->receiveLink($postObj);
+                    break;
+                default:
+                    $result = "unknow msg type: ".$RX_TYPE;
+                    break;
+            }
+            echo $result;die;
+        }
+
 
         if($this->checkSignature($sign,$time,$nonce)){
             echo $echostr;die;
@@ -37,7 +79,7 @@ class WeiController extends BaseController
 
     private function checkSignature($sign,$time,$nonce)
     {
-        $token = "zjjtest1";//微信公众平台里面填写的token
+        $token = \Yii::$app->params['weChat']['token'];//微信公众平台里面填写的token
         $tmpArr = [$token,$time, $nonce];
         sort($tmpArr, SORT_STRING);
         $tmpStr = implode( $tmpArr );
@@ -47,5 +89,185 @@ class WeiController extends BaseController
         }else{
             return false;
         }
+    }
+
+    /**
+     * 发送模板消息
+     */
+    public function send_notice(){
+        //获取access_token
+        $json_token=$this->curlPost("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".self::appid."&secret=".self::appsc);
+        //var_dump($json_token);die;
+        if ($_COOKIE['access_token']){
+            $access_token2=$_COOKIE['access_token'];
+        }else{
+            $json_token=$this->curlPost("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".self::appid."&secret=".self::appsc);
+            //var_dump($json_token);die;
+            $access_token1=json_decode($json_token,true);
+            $access_token2=$access_token1['access_token'];
+            setcookie('access_token',$access_token2,7200);
+        }
+        //模板消息
+        $json_template = $this->json_tempalte();
+        //echo($json_template);die;
+        $url="https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=".$access_token2;
+        $res=$this->curlPost($url,urldecode($json_template));
+        if ($res['errcode']==0){
+            return '发送成功';
+        }else{
+            return '发送失败';
+        }
+    }
+
+    /**
+     * 将模板消息json格式化
+     */
+    public function json_tempalte(){
+        //模板消息
+        $template=array(
+            'touser'=>'.$openid.',  //用户openid
+            'template_id'=>self::tid, //在公众号下配置的模板id
+            'url'=>self::url, //点击模板消息会跳转的链接
+            'topcolor'=>"#7B68EE",
+            'data'=>array(
+                'first'=>array('value'=>urlencode("收货地址(测试)"),'color'=>"#FF0000"),
+                'keyword1'=>array('value'=>urlencode('桐梓坡霸王'),'color'=>'#FF0000'),  //keyword需要与配置的模板消息对应
+                'keyword2'=>array('value'=>urlencode(15211111111),'color'=>'#FF0000'),
+                'keyword3'=>array('value'=>urlencode('测试发布人'),'color'=>'#FF0000'),
+                //'keyword4'=>array('value'=>urlencode('测试状态'),'color'=>'#FF0000'),
+                'remark' =>array('value'=>urlencode('备注：这是测试'),'color'=>'#FF0000'), )
+        );
+        $json_template=json_encode($template);
+        return $json_template;
+    }
+
+    //基础接口
+    public function actionAccessToken()
+    {
+        $code = $_GET["code"];
+        $state = $_GET["state"];
+        $appid = self::appid;
+        $appsecret = self::appsc;
+        $request_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appid.'&secret='.$appsecret.'&code='.$code.'&grant_type=authorization_code';
+
+        $result = $this->curlPost($request_url);
+
+        //获取token和openid成功，数据解析
+        $access_token = $result['access_token'];
+        $refresh_token = $result['refresh_token'];
+        $openid = $result['openid'];
+
+        //请求微信接口，获取用户信息
+        $userInfo = $this->getUserInfo($access_token,$openid);
+        $user_check = WechatUser::find()->where(['openid'=>$openid])->one();
+        if ($user_check) {
+            //更新用户资料
+        } else {
+            //保存用户资料
+        }
+
+        //前端网页的重定向
+        if ($openid) {
+            return $this->redirect($state.$openid);
+        } else {
+            return $this->redirect($state);
+        }
+    }
+
+    public function getUserInfo($access_token,$openid)
+    {
+        $request_url = 'https://api.weixin.qq.com/sns/userinfo?access_token='.$access_token.'&openid='.$openid.'&lang=zh_CN';
+        $result = $this->curlPost($request_url);
+        return $result;
+    }
+
+    //post
+    function curlPost($uri, $data = [])
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $uri);//地址
+        curl_setopt($ch, CURLOPT_POST, 1);//请求方式为post
+        curl_setopt($ch, CURLOPT_HEADER, 0);//不打印header信息
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//返回结果转成字符串
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);//post传输的数据。
+        $result = curl_exec($ch);
+        curl_close($ch);
+        return json_decode($result, true);
+    }
+
+    /*
+    * 接收文本消息
+    */
+    private function receiveText($object)
+    {
+        $content = "你发送的是文本，内容为：".$object->Content;
+        $result = $this->transmitText($object, $content);
+        return $result;
+    }
+
+    /*
+     * 接收图片消息
+     */
+    private function receiveImage($object)
+    {
+        $content = "你发送的是图片，地址为：".$object->PicUrl;
+        $result = $this->transmitText($object, $content);
+        return $result;
+    }
+
+    /*
+     * 接收语音消息
+     */
+    private function receiveVoice($object)
+    {
+        $content = "你发送的是语音，媒体ID为：".$object->MediaId;
+        $result = $this->transmitText($object, $content);
+        return $result;
+    }
+
+    /*
+     * 接收视频消息
+     */
+    private function receiveVideo($object)
+    {
+        $content = "你发送的是视频，媒体ID为：".$object->MediaId;
+        $result = $this->transmitText($object, $content);
+        return $result;
+    }
+
+    /*
+     * 接收位置消息
+     */
+    private function receiveLocation($object)
+    {
+        $content = "你发送的是位置，纬度为：".$object->Location_X."；经度为：".$object->Location_Y."；缩放级别为：".$object->Scale."；位置为：".$object->Label;
+        $result = $this->transmitText($object, $content);
+        return $result;
+    }
+
+    /*
+     * 接收链接消息
+     */
+    private function receiveLink($object)
+    {
+        $content = "你发送的是链接，标题为：".$object->Title."；内容为：".$object->Description."；链接地址为：".$object->Url;
+        $result = $this->transmitText($object, $content);
+        return $result;
+    }
+
+    /*
+     * 回复文本消息
+     */
+    private function transmitText($object, $content)
+    {
+        $textTpl = "<xml>
+            <ToUserName><![CDATA[%s]]></ToUserName>
+            <FromUserName><![CDATA[%s]]></FromUserName>
+            <CreateTime>%s</CreateTime>
+            <MsgType><![CDATA[text]]></MsgType>
+            <Content><![CDATA[%s]]></Content>
+            </xml>";
+        $result = sprintf($textTpl, $object->FromUserName, $object->ToUserName, time(), $content);
+        return $result;
     }
 }

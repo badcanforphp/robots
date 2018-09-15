@@ -24,7 +24,7 @@ $route =  [
 
     /**微信接口认证**/
     'http://www.' . DOMAIN . '/wei' => '/wei/index',
-    /**微信接口认证**/
+    'http://www.' .DOMAIN . '/wei/<action:[\w-]+>' => '/wei/<action>',
 
 
     'http://xin.fantasticskybaby.cn/' => '/default',
@@ -37,7 +37,7 @@ $route =  [
 
     /**微信接口认证**/
     'http://xin.fantasticskybaby.cn/wei' => '/wei/index',
-    /**微信接口认证**/
+    'http://xin.fantasticskybaby.cn/wei/<action:[\w-]+>' => '/wei/<action>'
 
 
 ];
