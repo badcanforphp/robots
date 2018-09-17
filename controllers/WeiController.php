@@ -58,7 +58,7 @@ class WeiController extends BaseController
             if($RX_TYPE=='event'){
                 if($EVENT=="subscribe"){
                     $msgType = "text";
-                    $contentStr = "欢迎您关注云医链共享服务平台，更多功能正在开发中！";
+                    $contentStr = "欢迎您关注"."<a href='http://www.baidu.com'>云医链共享服务平台</a>"."，更多功能正在开发中！";
                     $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
                     return  $resultStr;
                 }
