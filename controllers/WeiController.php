@@ -18,6 +18,42 @@ class WeiController extends BaseController
     const url = 'https://baidu.com';
     const appid = 'wxd902eece8491d8a8';
     const appsc = '9a173c60cbce672602ab1af5a5a8933a';
+    const button = '{
+                 "button":[
+                 {
+                       "name":"云医链",
+                       "sub_button":[
+                        {
+                           "type":"click",
+                           "name":"云医链1",
+                           "key":"tianQi"
+                        },
+                        {
+                           "type":"click",
+                           "name":"云医链2",
+                           "key":"gongJiao"
+                        }]
+                  },
+                  {
+                       "name":"用户",
+                       "sub_button":[
+                        {
+                           "type":"click",
+                           "name":"个人中心1",
+                           "key":"loveSuzhou"
+                        },
+                        {
+                           "type":"click",
+                           "name":"个人中心2",
+                           "key":"suzhouScenic"
+                        }]
+                   },
+                   {
+                       "type":"click",
+                       "name":"联系我们",
+                       "key":"lianxiUs"
+                   }]
+                }';
 
     public function actionIndex()
     {
@@ -42,7 +78,7 @@ class WeiController extends BaseController
             $RX_TYPE = trim($postObj->MsgType);//用户发送的消息类型判断
             $EVENT = $postObj->Event;//获取事件类型
 
-            $fromUsername = $postObj->FromUserName;
+            /*$fromUsername = $postObj->FromUserName;
             $toUsername = $postObj->ToUserName;
             $keyword = trim($postObj->Content);
             $time = time();
@@ -53,14 +89,16 @@ class WeiController extends BaseController
                 <CreateTime>%s</CreateTime>
                 <MsgType><![CDATA[%s]]></MsgType>
                 <Content><![CDATA[%s]]></Content>
-                </xml>";
+                </xml>";*/
+            //标准xml
 
             if($RX_TYPE=='event'){
                 if($EVENT=="subscribe"){
-                    $msgType = "text";
-                    $contentStr = "欢迎您关注"."<a href='http://www.baidu.com'>云医链共享服务平台</a>"."，更多功能正在开发中！";
-                    $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
-                    return  $resultStr;
+                   /* $msgType = "text";
+                    $content = "欢迎您关注"."<a href='http://www.baidu.com'>云医链共享服务平台</a>"."，更多功能正在开发中！";
+                    $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $content);*/
+                    $result  = $this->receiveFirst($postObj);
+                    return  $result;
                 }
             }//首次关注
 
@@ -114,6 +152,21 @@ class WeiController extends BaseController
         }
     }
 
+    /**
+     * 设定自定义菜单
+     */
+    public function actionMenu()
+    {
+        //获取access_token
+        $json_token=$this->curlPost("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".self::appid."&secret=".self::appsc);
+        $json=file_get_contents($json_token);
+        $result=json_decode($json,true);
+
+        $ACC_TOKEN=$result['access_token'];
+        $MENU_URL="https://api.weixin.qq.com/cgi-bin/menu/create?access_token=".$ACC_TOKEN;
+        $info = $this->curlPost($MENU_URL);
+        var_dump($info);
+    }
     /**
      * 发送模板消息
      */
@@ -216,6 +269,16 @@ class WeiController extends BaseController
         $result = curl_exec($ch);
         curl_close($ch);
         return json_decode($result, true);
+    }
+
+    /*
+    * 首次关注推送
+    */
+    private function receiveFirst($object)
+    {
+        $content = "欢迎您关注"."<a href='http://www.baidu.com'>云医链共享服务平台</a>"."，更多功能正在开发中！";
+        $result = $this->transmitText($object, $content);
+        return $result;
     }
 
     /*
