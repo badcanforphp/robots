@@ -159,12 +159,8 @@ class WeiController extends BaseController
     {
         //获取access_token
         $json_token = $this->curlPost("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".self::appid."&secret=".self::appsc);
-        \Yii::$app->cache->add('menu',$json_token,60);
-        if(\Yii::$app->cache->get('menu')){
-            $result = json_decode(\Yii::$app->cache->get('menu'),true);
-        }else{
-            $result = json_decode($json_token,true);
-        }
+
+        $result = json_decode($json_token,true);
 
         $ACC_TOKEN = $result['access_token'];
         $MENU_URL = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=".$ACC_TOKEN;
