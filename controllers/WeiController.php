@@ -36,10 +36,34 @@ class WeiController extends BaseController
         }
 
         $postStr = $GLOBALS['HTTP_RAW_POST_DATA'];//$request->post();
+
         if (!empty($postStr)) {
             $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
-            $RX_TYPE = trim($postObj->MsgType);
-            //用户发送的消息类型判断
+            $RX_TYPE = trim($postObj->MsgType);//用户发送的消息类型判断
+            $EVENT = $postObj->Event;//获取事件类型
+
+            $fromUsername = $postObj->FromUserName;
+            $toUsername = $postObj->ToUserName;
+            $keyword = trim($postObj->Content);
+            $time = time();
+
+            $textTpl = "<xml>
+                <ToUserName><![CDATA[%s]]></ToUserName>
+                <FromUserName><![CDATA[%s]]></FromUserName>
+                <CreateTime>%s</CreateTime>
+                <MsgType><![CDATA[%s]]></MsgType>
+                <Content><![CDATA[%s]]></Content>
+                </xml>";
+
+            if($RX_TYPE=='event'){
+                if($EVENT=="subscribe"){
+                    $msgType = "text";
+                    $contentStr = "欢迎您关注云医链共享服务平台，更多功能正在开发中！";
+                    $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+                    return  $resultStr;
+                }
+            }//首次关注
+
             switch ($RX_TYPE)
             {
                 case "text":    //文本消息
@@ -48,7 +72,6 @@ class WeiController extends BaseController
                 case "image":   //图片消息
                     $result = $this->receiveImage($postObj);
                     break;
-
                 case "voice":   //语音消息
                     $result = $this->receiveVoice($postObj);
                     break;
