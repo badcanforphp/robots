@@ -252,8 +252,13 @@ class WeiController extends BaseController
             $model->access_token = $access_token;
             $model->refresh_token = $refresh_token;
             $model->save();
+            if($model->save()){
+                echo 456;die;
+            }else{
+                echo 789;die;
+            }
         }
-        echo 123;die;
+
         //前端网页的重定向
         if ($openid) {
             return $this->redirect($state);
