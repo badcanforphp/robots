@@ -234,7 +234,7 @@ class WeiController extends BaseController
         $openid = $result['openid'];//用户open_id
 
         //请求微信接口，获取用户信息
-        $userInfo = $this->getUserInfo($access_token,$openid);var_dump($userInfo);die;
+        $userInfo = $this->getUserInfo($access_token,$openid);
         $user_check = WechatUser::find()->where(['openid'=>$openid])->one();
         if ($user_check) {
             //更新用户资料
@@ -253,10 +253,10 @@ class WeiController extends BaseController
             $model->refresh_token = $refresh_token;
             $model->save();
         }
-
+        echo 123;die;
         //前端网页的重定向
         if ($openid) {
-            return $this->redirect($state.$openid);
+            return $this->redirect($state);
         } else {
             return $this->redirect($state);
         }
