@@ -235,7 +235,7 @@ class WeiController extends BaseController
 
         //请求微信接口，获取用户信息
         $userInfo = $this->getUserInfo($access_token,$openid);
-        $user_check = WechatUser::find()->where(['openid'=>$openid])->one();
+        $user_check = WechatUser::find()->where(['openid'=>$openid])->one();var_dump($userInfo);die;
         if ($user_check) {
             //更新用户资料
 
