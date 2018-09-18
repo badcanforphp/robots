@@ -242,28 +242,27 @@ class WeiController extends BaseController
         } else {
             //保存用户资料
             $model = new WechatUser();
+            $model->id = 1;
             $model->openid = $userInfo['openid'];
             $model->nickname = $userInfo['nickname'];
             $model->sex = $userInfo['sex'];
             $model->headimgurl = $userInfo['headimgurl'];
-            $model->country = $userInfo['country'];
+            $model->country = 2;
             $model->province = $userInfo['province'];
-            $model->city = $userInfo['city'];
+            $model->city = 3;
             $model->access_token = $access_token;
             $model->refresh_token = $refresh_token;
             $model->save();
             if($model->save()){
-                echo 456;die;
+                //前端网页的重定向
+                if ($openid) {
+                    return $this->redirect($state);
+                } else {
+                    return $this->redirect($state);
+                }
             }else{
                 var_dump($model->firstErrors);die;
             }
-        }
-
-        //前端网页的重定向
-        if ($openid) {
-            return $this->redirect($state);
-        } else {
-            return $this->redirect($state);
         }
     }
 
