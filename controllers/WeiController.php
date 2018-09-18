@@ -235,7 +235,7 @@ class WeiController extends BaseController
 
         //请求微信接口，获取用户信息
         $userInfo = $this->getUserInfo($access_token,$openid);
-        $user_check = WechatUser::find()->where(['openid'=>$openid])->one();var_dump($userInfo);die;
+        $user_check = WechatUser::find()->where(['openid'=>$openid])->one();
         if ($user_check) {
             //更新用户资料
 
@@ -294,7 +294,7 @@ class WeiController extends BaseController
     */
     private function receiveFirst($object)
     {
-        $content = "欢迎您关注"."<a href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=".self::appid."&redirect_uri=".urlencode('http://xin.fantasticskybaby.cn/wei/access-token')."&response_type=code&scope=snsapi_base&state=".urlencode('http://xin.fantasticskybaby.cn/code.txt')."#wechat_redirect'>云医链共享服务平台</a>"."，更多功能正在开发中！";
+        $content = "欢迎您关注"."<a href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=".self::appid."&redirect_uri=".urlencode('http://xin.fantasticskybaby.cn/wei/access-token')."&response_type=code&scope=snsapi_userinfo&state=".urlencode('http://xin.fantasticskybaby.cn/code.txt')."#wechat_redirect'>云医链共享服务平台</a>"."，更多功能正在开发中！";
         $result = $this->transmitText($object, $content);
         return $result;
     }
