@@ -247,9 +247,6 @@ class WeiController extends BaseController
             $model->nickname = $userInfo['nickname'];
             $model->sex = $userInfo['sex'];
             $model->headimgurl = $userInfo['headimgurl'];
-            $model->country = 2;
-            $model->province = $userInfo['province'];
-            $model->city = 3;
             $model->access_token = $access_token;
             $model->refresh_token = $refresh_token;
             $model->save();
