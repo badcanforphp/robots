@@ -255,7 +255,7 @@ class WeiController extends BaseController
             if($model->save()){
                 echo 456;die;
             }else{
-                echo 789;die;
+                var_dump($model->firstErrors);die;
             }
         }
 
