@@ -77,10 +77,9 @@ class WeiController extends BaseController
             $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
             $RX_TYPE = trim($postObj->MsgType);//用户发送的消息类型判断
             $EVENT = $postObj->Event;//获取事件类型
-
+            $keyword = trim($postObj->Content);//获取内容
             /*$fromUsername = $postObj->FromUserName;
             $toUsername = $postObj->ToUserName;
-            $keyword = trim($postObj->Content);
             $time = time();
 
             $textTpl = "<xml>
@@ -163,8 +162,9 @@ class WeiController extends BaseController
         $result = json_decode($json_token,true);
 
         $ACC_TOKEN = $result['access_token'];
+
         $MENU_URL = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=".$ACC_TOKEN;
-        $info = $this->curlPost($MENU_URL);
+        $info = $this->curlPost($MENU_URL,self::button);
         var_dump($info);
     }
 
@@ -180,8 +180,7 @@ class WeiController extends BaseController
         }else{
             $json_token=$this->curlPost("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".self::appid."&secret=".self::appsc);
             //var_dump($json_token);die;
-            $access_token1=json_decode($json_token,true);
-            $access_token2=$access_token1['access_token'];
+            $access_token2=$json_token['access_token'];
             setcookie('access_token',$access_token2,7200);
         }
         //模板消息
@@ -264,10 +263,16 @@ class WeiController extends BaseController
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $uri);//地址
         curl_setopt($ch, CURLOPT_POST, 1);//请求方式为post
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);//取消ssl验证
         curl_setopt($ch, CURLOPT_HEADER, 0);//不打印header信息
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//返回结果转成字符串
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);//post传输的数据。
-        $result = curl_exec($ch);
+        /*curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/json; charset=utf-8',
+                'Content-Length: ' . strlen($data)
+            )
+        );*/
+        $result = curl_exec($ch);//curl_error($ch);
         curl_close($ch);
         return json_decode($result, true);
     }
