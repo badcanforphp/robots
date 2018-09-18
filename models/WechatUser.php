@@ -7,7 +7,7 @@ use Yii;
 /**
  * This is the model class for table "wechat_user".
  *
- * @property integer $id
+ * @property string $id
  * @property string $openid
  * @property string $nickname
  * @property integer $sex
@@ -35,11 +35,11 @@ class WechatUser extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'openid', 'nickname', 'sex', 'headimgurl', 'country', 'province', 'city', 'access_token', 'refresh_token'], 'required'],
-            [['id', 'sex'], 'integer'],
-            [['created_at'], 'safe'],
+            [['openid', 'nickname', 'headimgurl', 'access_token', 'refresh_token'], 'required'],
+            [['sex'], 'integer'],
             [['openid', 'headimgurl', 'access_token', 'refresh_token'], 'string', 'max' => 255],
             [['nickname', 'country', 'province', 'city'], 'string', 'max' => 50],
+            [['created_at'], 'string', 'max' => 16],
         ];
     }
 
