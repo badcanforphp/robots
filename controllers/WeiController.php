@@ -25,33 +25,34 @@ class WeiController extends BaseController
                        "sub_button":[
                         {
                            "type":"click",
-                           "name":"云医链1",
-                           "key":"tianQi"
+                           "name":"公司简介",
+                           "key":"jianjie"
                         },
                         {
                            "type":"click",
-                           "name":"云医链2",
-                           "key":"gongJiao"
+                           "name":"商城",
+                           "key":"chengxiang"
+                        },
+                        {
+                           "type":"click",
+                           "name":"成为合伙人",
+                           "key":"hezuo"
+                        },
+                        {
+                           "type":"click",
+                           "name":"联系我们",
+                           "key":"lianxi"
                         }]
                   },
                   {
-                       "name":"用户",
-                       "sub_button":[
-                        {
-                           "type":"click",
-                           "name":"个人中心1",
-                           "key":"loveSuzhou"
-                        },
-                        {
-                           "type":"click",
-                           "name":"个人中心2",
-                           "key":"suzhouScenic"
-                        }]
+                       "type":"click",
+                       "name":"医生入口",
+                       "key":"doc"
                    },
                    {
                        "type":"click",
-                       "name":"联系我们",
-                       "key":"lianxiUs"
+                       "name":"用户入口",
+                       "key":"cus"
                    }]
                 }';
 
