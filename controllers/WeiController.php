@@ -46,12 +46,12 @@ class WeiController extends BaseController
                   },
                   {
                        "type":"click",
-                       "name":"医生入口",
+                       "name":"医生端",
                        "key":"doc"
                    },
                    {
                        "type":"click",
-                       "name":"用户入口",
+                       "name":"用户端",
                        "key":"cus"
                    }]
                 }';
