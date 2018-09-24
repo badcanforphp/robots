@@ -29,9 +29,9 @@ class WeiController extends BaseController
                            "key":"jianjie"
                         },
                         {
-                           "type":"click",
+                           "type":"view",
                            "name":"商城",
-                           "key":"chengxiang"
+                           "url":"https://o2o.zhcxkeji.com/Wechat/#/"
                         },
                         {
                            "type":"click",
@@ -45,9 +45,9 @@ class WeiController extends BaseController
                         }]
                   },
                   {
-                       "type":"click",
+                       "type":"view",
                        "name":"医生端",
-                       "key":"doc"
+                       "url":"http://dxc.yunyilian.com.cn/my/passport/login-p"
                    },
                    {
                        "type":"click",
@@ -163,7 +163,7 @@ class WeiController extends BaseController
         $result = json_decode($json_token,true);
 
         $ACC_TOKEN = $result['access_token'];
-
+        //$ACC_TOKEN = '14_C2ECcqewtzClxQp4bisSquOu7RLnIlXhir0wKZv5Z9jwd1b9CU_R-ZgqPEp9Aiduf3pzwMM6UpR2Y8eFGPyvlKPg3A-9bTquXFxT1gSxV14M1htXyMzJg__cPM45tbNNm3EsiOpTK21nUiQKACRfAFAMOD';
         $MENU_URL = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=".$ACC_TOKEN;
         $info = $this->curlPost($MENU_URL,self::button);
         var_dump($info);
@@ -306,7 +306,16 @@ class WeiController extends BaseController
     */
     private function receiveText($object)
     {
-        $content = "你发送的是文本，内容为：".$object->Content;
+        switch($object->Content){
+            case 'jianjie':
+                $content = '湖南云医链网络科技有限公司是一家以人工智能、大数据、云计算、物联网、区块链技术应用、研发、投资为一体的大型综合性科技企业，公司总部坐落于湖南省长沙市天心区广告产业园。
+
+“云医链”是公司重点打造的全国首家以区块链技术作为底层架构，综合运用云计算、人工智能、大数据等多项前沿技术作为支撑，用去中心化、大数据思维重塑大健康管理的共享服务平台。通过云计算建立全球数据资源釆集、汇聚、共享和应用机制，为大健康产业的发展提供完全去中心化的智能合约、溯源等增值服务，实现全民数据共享、资源共享。';
+                break;
+            default:
+                $content = "你发送的是文本，内容为：".$object->Content;
+                break;
+        }
         $result = $this->transmitText($object, $content);
         return $result;
     }
