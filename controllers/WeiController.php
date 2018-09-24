@@ -99,23 +99,24 @@ class WeiController extends BaseController
                     $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $content);*/
                     $result  = $this->receiveFirst($postObj);
                     return  $result;
-                }elseif ($EVENT=='click'){  //点击菜单
-                //点击事件
-                $EventKey = $postObj->EventKey;//菜单的自定义的key值，可以根据此值判断用户点击了什么内容，从而推送不同信息
-                switch($EventKey){
-                    case 'jianjie':
-                        $content = '湖南云医链网络科技有限公司是一家以人工智能、大数据、云计算、物联网、区块链技术应用、研发、投资为一体的大型综合性科技企业，公司总部坐落于湖南省长沙市天心区广告产业园。
+                }elseif ($EVENT=='CLICK'){  //点击菜单
+                    //点击事件
+                    $EventKey = $postObj->EventKey;//菜单的自定义的key值，可以根据此值判断用户点击了什么内容，从而推送不同信息
+                    switch($EventKey){
+                        case 'jianjie':
+                            $content = '湖南云医链网络科技有限公司是一家以人工智能、大数据、云计算、物联网、区块链技术应用、研发、投资为一体的大型综合性科技企业，公司总部坐落于湖南省长沙市天心区广告产业园。
 
-“云医链”是公司重点打造的全国首家以区块链技术作为底层架构，综合运用云计算、人工智能、大数据等多项前沿技术作为支撑，用去中心化、大数据思维重塑大健康管理的共享服务平台。通过云计算建立全球数据资源釆集、汇聚、共享和应用机制，为大健康产业的发展提供完全去中心化的智能合约、溯源等增值服务，实现全民数据共享、资源共享。';
-                        break;
-                    case 'lianxi':
-                        $content = '请拨打联系电话：xxx-xxxxxxx，或直接前往湖南省长沙市天心区创谷产业园A2十层面议';
-                        break;
-                    case 'hezuo':
-                        $content = '合作就合作';
-                        break;
-                    default:
-                        $content = '欢迎使用云医链！';
+    “云医链”是公司重点打造的全国首家以区块链技术作为底层架构，综合运用云计算、人工智能、大数据等多项前沿技术作为支撑，用去中心化、大数据思维重塑大健康管理的共享服务平台。通过云计算建立全球数据资源釆集、汇聚、共享和应用机制，为大健康产业的发展提供完全去中心化的智能合约、溯源等增值服务，实现全民数据共享、资源共享。';
+                            break;
+                        case 'lianxi':
+                            $content = '请拨打联系电话：xxx-xxxxxxx，或直接前往湖南省长沙市天心区创谷产业园A2十层面议';
+                            break;
+                        case 'hezuo':
+                            $content = '合作就合作';
+                            break;
+                        default:
+                            $content = '欢迎使用云医链！';
+                            break;
                     }
                     $result = $this->transmitText($postObj, $content);
                     return $result;
