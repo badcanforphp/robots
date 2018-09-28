@@ -109,10 +109,13 @@ class WeiController extends BaseController
     “云医链”是公司重点打造的全国首家以区块链技术作为底层架构，综合运用云计算、人工智能、大数据等多项前沿技术作为支撑，用去中心化、大数据思维重塑大健康管理的共享服务平台。通过云计算建立全球数据资源釆集、汇聚、共享和应用机制，为大健康产业的发展提供完全去中心化的智能合约、溯源等增值服务，实现全民数据共享、资源共享。';
                             break;
                         case 'lianxi':
-                            $content = '请拨打联系电话：xxx-xxxxxxx，或直接前往湖南省长沙市天心区创谷产业园A2十层面议';
+                            $content = '请拨打联系电话：0731--85519535，或直接前往湖南省长沙市天心区创谷产业园A2十层面议';
                             break;
                         case 'hezuo':
-                            $content = '合作就合作';
+                            $content = '请拨打联系电话：0731--85519535，或直接前往湖南省长沙市天心区创谷产业园A2十层面议';
+                            break;
+                        case 'cus':
+                            $content = "请用户大人"."<a href='http://u.yunyilian.com.cn/my/passport/set-info'>"."完善个人资料/进入个人中心"."</a>"."";
                             break;
                         default:
                             $content = '欢迎使用云医链！';
