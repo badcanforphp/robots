@@ -50,9 +50,9 @@ class WeiController extends BaseController
                        "url":"http://dxc.yunyilian.com.cn/my/passport/login-p"
                    },
                    {
-                       "type":"click",
+                       "type":"view",
                        "name":"用户端",
-                       "key":"cus"
+                       "url":"http://u.yunyilian.com.cn/my/passport/set-info"
                    }]
                 }';
 
@@ -113,9 +113,6 @@ class WeiController extends BaseController
                             break;
                         case 'hezuo':
                             $content = '请拨打联系电话：0731--85519535，或直接前往湖南省长沙市天心区创谷产业园A2十层面议';
-                            break;
-                        case 'cus':
-                            $content = "请用户大人"."<a href='http://u.yunyilian.com.cn/my/passport/set-info'>"."完善个人资料/进入个人中心"."</a>"."";
                             break;
                         default:
                             $content = '欢迎使用云医链！';
@@ -187,7 +184,7 @@ class WeiController extends BaseController
         $result = json_decode($json_token,true);
 
         $ACC_TOKEN = $result['access_token'];
-        //$ACC_TOKEN = '14_C2ECcqewtzClxQp4bisSquOu7RLnIlXhir0wKZv5Z9jwd1b9CU_R-ZgqPEp9Aiduf3pzwMM6UpR2Y8eFGPyvlKPg3A-9bTquXFxT1gSxV14M1htXyMzJg__cPM45tbNNm3EsiOpTK21nUiQKACRfAFAMOD';
+        //$ACC_TOKEN = '14_1WVeixh_1wEQ6XGfJqcvAAXImZINYi3ROKeiKsd76ligJb8t6X1g2iSv_tczqyolgMUAjt7hYt7BLfSmdj7C_-mPfSBpaETLk9ZgVGk83nIHSv63_A3-VKuQIu1x_V_GC7o-c4-dCbq8-LFqWSYjAJACYE';
         $MENU_URL = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=".$ACC_TOKEN;
         $info = $this->curlPost($MENU_URL,self::button);
         var_dump($info);
