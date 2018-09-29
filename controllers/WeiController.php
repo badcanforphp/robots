@@ -184,7 +184,7 @@ class WeiController extends BaseController
         $result = json_decode($json_token,true);
 
         $ACC_TOKEN = $result['access_token'];
-        //$ACC_TOKEN = '14_1WVeixh_1wEQ6XGfJqcvAAXImZINYi3ROKeiKsd76ligJb8t6X1g2iSv_tczqyolgMUAjt7hYt7BLfSmdj7C_-mPfSBpaETLk9ZgVGk83nIHSv63_A3-VKuQIu1x_V_GC7o-c4-dCbq8-LFqWSYjAJACYE';
+        //$ACC_TOKEN = '14_1WVeixh_1wEQ6XGfJqcvAAXImZINYi3ROKeiKsd76ligJb8t6X1g2iSv_tczqyolgMUAjt7hYt7BLfSmdj7C_-mPfSBpaETLk9ZgVGk83nIHSv63_A3-VKuQIu1x_V_GC7o-c4-dCbq8-LFqWSYjAJACYE';//
         $MENU_URL = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=".$ACC_TOKEN;
         $info = $this->curlPost($MENU_URL,self::button);
         var_dump($info);
