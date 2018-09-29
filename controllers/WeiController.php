@@ -320,7 +320,7 @@ class WeiController extends BaseController
     */
     private function receiveFirst($object)
     {
-        $content = "欢迎您关注"."<a href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=".self::appid."&redirect_uri=".urlencode('http://xin.fantasticskybaby.cn/wei/access-token')."&response_type=code&scope=snsapi_userinfo&state=".urlencode('http://xin.fantasticskybaby.cn/code.txt')."#wechat_redirect'>云医链共享服务平台</a>"."，更多功能正在开发中！";
+        $content = "欢迎您关注"."<a href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=".self::appid."&redirect_uri=".urlencode('http://xin.fantasticskybaby.cn/wei/access-token')."&response_type=code&scope=snsapi_userinfo&state=".urlencode('http://u.yunyilian.com.cn')."#wechat_redirect'>云医链共享服务平台</a>"."，更多功能正在开发中！";
         $result = $this->transmitText($object, $content);
         return $result;
     }
