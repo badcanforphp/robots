@@ -179,12 +179,12 @@ class WeiController extends BaseController
     public function actionMenu()
     {
         //获取access_token
-        $json_token = $this->curlPost("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".self::appid."&secret=".self::appsc);
+        //$json_token = $this->curlPost("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".self::appid."&secret=".self::appsc);
 
-        $result = json_decode($json_token,true);
+        //$result = json_decode($json_token,true);
 
-        $ACC_TOKEN = $result['access_token'];
-        //$ACC_TOKEN = '14_1WVeixh_1wEQ6XGfJqcvAAXImZINYi3ROKeiKsd76ligJb8t6X1g2iSv_tczqyolgMUAjt7hYt7BLfSmdj7C_-mPfSBpaETLk9ZgVGk83nIHSv63_A3-VKuQIu1x_V_GC7o-c4-dCbq8-LFqWSYjAJACYE';//
+        //$ACC_TOKEN = $result['access_token'];
+        $ACC_TOKEN = '14_65Rp5C_SzvKLrnvKyrGwPM8iJKv4RJ4FIgQUQRIfOxU-VhoUmahN0rhSAUj-ALcQNfm9vPI0kiRVvZrOZt4FwDFdTYwaXUJLEVUJFeXwCHaJ6v_MRnpI75GM4IkJIUhAHAZYK';//
         $MENU_URL = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=".$ACC_TOKEN;
         $info = $this->curlPost($MENU_URL,self::button);
         var_dump($info);
@@ -317,7 +317,8 @@ class WeiController extends BaseController
     */
     private function receiveFirst($object)
     {
-        $content = "欢迎您关注"."<a href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=".self::appid."&redirect_uri=".urlencode('http://xin.fantasticskybaby.cn/wei/access-token')."&response_type=code&scope=snsapi_userinfo&state=".urlencode('http://u.yunyilian.com.cn/my/passport/set-info')."#wechat_redirect'>云医链共享服务平台</a>"."，更多功能正在开发中！";
+        /*$content = "欢迎您关注"."<a href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=".self::appid."&redirect_uri=".urlencode('http://xin.fantasticskybaby.cn/wei/access-token')."&response_type=code&scope=snsapi_userinfo&state=".urlencode('http://u.yunyilian.com.cn/my/passport/set-info')."#wechat_redirect'>云医链共享服务平台</a>"."，更多功能正在开发中！";*/
+        $content = "欢迎您关注"."<a href='http://u.yunyilian.com.cn/my/passport/set-info' >云医链共享服务平台</a>"."，更多功能正在开发中！";
         $result = $this->transmitText($object, $content);
         return $result;
     }
