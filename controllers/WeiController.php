@@ -56,6 +56,14 @@ class WeiController extends BaseController
                    }]
                 }';
 
+    private $_msg_template = array(
+        'text' => '<xml><ToUserName><![CDATA[%s]]></ToUserName><FromUserName><![CDATA[%s]]></FromUserName><CreateTime>%s</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[%s]]></Content></xml>',//文本回复XML模板
+        'image' => '<xml><ToUserName><![CDATA[%s]]></ToUserName><FromUserName><![CDATA[%s]]></FromUserName><CreateTime>%s</CreateTime><MsgType><![CDATA[image]]></MsgType><Image><MediaId><![CDATA[%s]]></MediaId></Image></xml>',//图片回复XML模板
+        'music' => '<xml><ToUserName><![CDATA[%s]]></ToUserName><FromUserName><![CDATA[%s]]></FromUserName><CreateTime>%s</CreateTime><MsgType><![CDATA[music]]></MsgType><Music><Title><![CDATA[%s]]></Title><Description><![CDATA[%s]]></Description><MusicUrl><![CDATA[%s]]></MusicUrl><HQMusicUrl><![CDATA[%s]]></HQMusicUrl><ThumbMediaId><![CDATA[%s]]></ThumbMediaId></Music></xml>',//音乐模板
+        'news' => '<xml><ToUserName><![CDATA[%s]]></ToUserName><FromUserName><![CDATA[%s]]></FromUserName><CreateTime>%s</CreateTime><MsgType><![CDATA[news]]></MsgType><ArticleCount>%s</ArticleCount><Articles>%s</Articles></xml>',// 新闻主体
+        'news_item' => '<item><Title><![CDATA[%s]]></Title><Description><![CDATA[%s]]></Description><PicUrl><![CDATA[%s]]></PicUrl><Url><![CDATA[%s]]></Url></item>',//某个新闻模板
+    );
+
     public function actionIndex()
     {
         $request = \Yii::$app->request;
@@ -104,9 +112,11 @@ class WeiController extends BaseController
                     $EventKey = $postObj->EventKey;//菜单的自定义的key值，可以根据此值判断用户点击了什么内容，从而推送不同信息
                     switch($EventKey){
                         case 'jianjie':
-                            $content = '湖南云医链网络科技有限公司是一家以人工智能、大数据、云计算、物联网、区块链技术应用、研发、投资为一体的大型综合性科技企业，公司总部坐落于湖南省长沙市天心区广告产业园。
+                            /*$content = '湖南云医链网络科技有限公司是一家以人工智能、大数据、云计算、物联网、区块链技术应用、研发、投资为一体的大型综合性科技企业，公司总部坐落于湖南省长沙市天心区广告产业园。
 
-    “云医链”是公司重点打造的全国首家以区块链技术作为底层架构，综合运用云计算、人工智能、大数据等多项前沿技术作为支撑，用去中心化、大数据思维重塑大健康管理的共享服务平台。通过云计算建立全球数据资源釆集、汇聚、共享和应用机制，为大健康产业的发展提供完全去中心化的智能合约、溯源等增值服务，实现全民数据共享、资源共享。';
+    “云医链”是公司重点打造的全国首家以区块链技术作为底层架构，综合运用云计算、人工智能、大数据等多项前沿技术作为支撑，用去中心化、大数据思维重塑大健康管理的共享服务平台。通过云计算建立全球数据资源釆集、汇聚、共享和应用机制，为大健康产业的发展提供完全去中心化的智能合约、溯源等增值服务，实现全民数据共享、资源共享。';*/
+                            $content = [['title'=>'公司简介','desc'=>'公司简介','picurl'=>'图片地址','url'=>'https://mp.weixin.qq.com/s/tt_gtQRKbz1MK-F-dP7MWg']];
+                            $this->_msgNews($postObj->FromUserName,$postObj->ToUserName,$content);
                             break;
                         case 'lianxi':
                             $content = '请拨打联系电话：0731--85519535，或发送邮件到 hnyunyilian@163.com';
@@ -397,5 +407,17 @@ class WeiController extends BaseController
             </xml>";
         $result = sprintf($textTpl, $object->FromUserName, $object->ToUserName, time(), $content);
         return $result;
+    }
+
+    //发送新闻
+    private function _msgNews($to,$from,$item_list=array()){
+        //拼凑文章部分
+        $item_str = '';
+        foreach ($item_list as $item) {
+            $item_str .= sprintf($this->_msg_template['news_item'],$item['title'],$item['desc'],$item['picurl'],$item['url']);
+        }
+        //拼凑主体部分
+        $response = sprintf($this->_msg_template['news'], $to, $from, time(), count($item_list), $item_str);
+        die($response);
     }
 }
