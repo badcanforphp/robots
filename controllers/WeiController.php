@@ -112,10 +112,7 @@ class WeiController extends BaseController
                     $EventKey = $postObj->EventKey;//菜单的自定义的key值，可以根据此值判断用户点击了什么内容，从而推送不同信息
                     switch($EventKey){
                         case 'jianjie':
-                            /*$content = '湖南云医链网络科技有限公司是一家以人工智能、大数据、云计算、物联网、区块链技术应用、研发、投资为一体的大型综合性科技企业，公司总部坐落于湖南省长沙市天心区广告产业园。
-
-    “云医链”是公司重点打造的全国首家以区块链技术作为底层架构，综合运用云计算、人工智能、大数据等多项前沿技术作为支撑，用去中心化、大数据思维重塑大健康管理的共享服务平台。通过云计算建立全球数据资源釆集、汇聚、共享和应用机制，为大健康产业的发展提供完全去中心化的智能合约、溯源等增值服务，实现全民数据共享、资源共享。';*/
-                            $content = [['title'=>'公司简介','desc'=>'公司简介','picurl'=>'图片地址','url'=>'https://mp.weixin.qq.com/s/tt_gtQRKbz1MK-F-dP7MWg']];
+                            $content = [['title'=>'云医链网络科技','desc'=>'湖南云医链网络科技有限公司是一家以人工智能、大数据、云计算、物联网、区块链技术应用、研发、投资为一体的大型综合性科技企业，公司总部坐落于湖南省长沙市天心区广告产业园。','picurl'=>'https://mmbiz.qlogo.cn/mmbiz_jpg/C3bmacbv0hEIBE3VIXuyx7P6ZJfYFRcFWQU3ZUHYuxJuQDNMiageWXdiarmJOSHnmjcLat3DGhKAvIMvWduKmKsA/640?wx_fmt=jpeg','url'=>'https://mp.weixin.qq.com/s/tt_gtQRKbz1MK-F-dP7MWg']];
                             $this->_msgNews($postObj->FromUserName,$postObj->ToUserName,$content);
                             break;
                         case 'lianxi':
