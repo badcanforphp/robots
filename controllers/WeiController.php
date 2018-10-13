@@ -112,7 +112,7 @@ class WeiController extends BaseController
                     $EventKey = $postObj->EventKey;//菜单的自定义的key值，可以根据此值判断用户点击了什么内容，从而推送不同信息
                     switch($EventKey){
                         case 'jianjie':
-                            $content = [['title'=>'云医链网络科技','desc'=>'湖南云医链网络科技有限公司是一家以人工智能、大数据、云计算、物联网、区块链技术应用、研发、投资为一体的大型综合性科技企业，公司总部坐落于湖南省长沙市天心区广告产业园。','picurl'=>'https://mmbiz.qlogo.cn/mmbiz_jpg/C3bmacbv0hEIBE3VIXuyx7P6ZJfYFRcFWQU3ZUHYuxJuQDNMiageWXdiarmJOSHnmjcLat3DGhKAvIMvWduKmKsA/640?wx_fmt=jpeg','url'=>'https://mp.weixin.qq.com/s/tt_gtQRKbz1MK-F-dP7MWg']];
+                            $content = [['title'=>'云医链网络科技','desc'=>'湖南云医链网络科技有限公司是一家以人工智能、大数据、云计算、物联网、区块链技术应用、研发、投资为一体的大型综合性科技企业，公司总部坐落于湖南省长沙市天心区广告产业园。','picurl'=>'https://mmbiz.qlogo.cn/mmbiz_jpg/C3bmacbv0hEIBE3VIXuyx7P6ZJfYFRcFWQU3ZUHYuxJuQDNMiageWXdiarmJOSHnmjcLat3DGhKAvIMvWduKmKsA/640?wx_fmt=jpeg','url'=>'https://mp.weixin.qq.com/s/6SuB-oBEN56q_s-J1xKdaA']];
                             $this->_msgNews($postObj->FromUserName,$postObj->ToUserName,$content);
                             break;
                         case 'lianxi':
